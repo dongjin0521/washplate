@@ -60,6 +60,7 @@ public class SessionController {
                         "id", s.getId(),
                         "plateNumber", plateNumber,
                         "bayCode", s.getBay().getCode(),
+                        "bayName", s.getBay().getName(),
                         "minutes", s.getUsedMinutes(),
                         "liters", s.getUsedLiters(),
                         "amount", s.getChargeAmount()

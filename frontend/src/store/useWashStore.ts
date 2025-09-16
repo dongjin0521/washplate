@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { api } from '../api/client'
+import { api, setAuthToken } from '../api/client'
 
 type Session = {
   id: number
@@ -14,6 +14,7 @@ type State = {
   user?: { id: number; name: string; phone: string; role: string }
   session?: Session
   login: (phone: string, name?: string) => Promise<void>
+  logout: () => void
   startSession: (plateNumber: string, bayCode: string) => Promise<void>
   syncUsage: (minutes: number, liters: number, amount: number) => Promise<void>
   closeSession: () => Promise<number>
@@ -22,7 +23,15 @@ type State = {
 export const useWashStore = create<State>((set, get) => ({
   async login(phone, name) {
     const { data } = await api.post('/auth/login', { phone, name })
-    set({ user: { id: data.userId, name: data.name, phone: data.phone, role: data.role } })
+    if (data.token) setAuthToken(data.token)
+    const user = { id: data.userId, name: data.name, phone: data.phone, role: data.role }
+    try { localStorage.setItem('wp_user', JSON.stringify(user)) } catch {}
+    set({ user })
+  },
+  logout() {
+    setAuthToken(undefined)
+    try { localStorage.removeItem('wp_user') } catch {}
+    set({ user: undefined })
   },
   async startSession(plateNumber, bayCode) {
     const { data } = await api.post('/sessions/start', { plateNumber, bayCode })
@@ -42,6 +51,15 @@ export const useWashStore = create<State>((set, get) => ({
     return data.charged as number
   },
 }))
+
+// 초기 사용자 상태 하이드레이션
+try {
+  const raw = localStorage.getItem('wp_user')
+  if (raw) {
+    const parsed = JSON.parse(raw)
+    useWashStore.setState({ user: parsed })
+  }
+} catch {}
 
 
 

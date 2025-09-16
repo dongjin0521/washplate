@@ -38,6 +38,7 @@ public class WashSession extends BaseEntity {
 
     public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
     public void setBay(Bay bay) { this.bay = bay; }
+    public Bay getBay() { return bay; }
     public void syncUsage(int minutes, double liters, int amount) { this.usedMinutes = minutes; this.usedLiters = liters; this.chargeAmount = amount; }
     public void close(Instant endedAt) { this.status = WashSessionStatus.CLOSED; this.endedAt = endedAt; }
 }

@@ -3,9 +3,21 @@
 @tailwind utilities;
 
 /* 모바일 고정 폭 (iPhone 12 Pro 기준 390px) */
-:root { color-scheme: dark; }
+:root { color-scheme: light; }
 html, body, #root { height: 100%; }
-body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji; }
+body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji; background-color: #fafafa; }
+
+@layer components {
+  .card { @apply rounded-2xl border border-gray-200 bg-white shadow-sm; }
+  .card-body { @apply p-4; }
+  .btn { @apply inline-flex items-center justify-center rounded-lg h-11 px-4 text-sm font-medium transition-colors; }
+  .btn-primary { @apply text-white bg-sky-600 hover:bg-sky-700 disabled:bg-gray-300 disabled:cursor-not-allowed; }
+  .btn-outline { @apply bg-white border border-gray-300 text-gray-700 hover:border-sky-300; }
+  .input { @apply h-11 w-full rounded-lg border border-gray-300 px-3 focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-400; }
+  .label { @apply block text-xs text-gray-500 mb-1; }
+  .badge { @apply inline-flex items-center px-2 py-0.5 rounded-full border text-[11px]; }
+  .badge-sky { @apply border-sky-200 bg-sky-50 text-sky-700; }
+}
 
 
 
